@@ -22,6 +22,12 @@ chrome.runtime.onInstalled.addListener((details) => {
         "title": "Upload text with ShareX",
         "contexts": ["selection"]
     });
+
+    chrome.contextMenus.create({
+        "id": "ShareX_Shorten_URL",
+        "title": "Shorten URL with ShareX",
+        "contexts": ["link"]
+    });
 });
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
@@ -50,6 +56,12 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
             chrome.runtime.sendNativeMessage(application, {
                 Action: "UploadText",
                 Text: info.selectionText
+            });
+            break;
+        case "ShareX_Shorten_URL":
+            chrome.runtime.sendNativeMessage(application, {
+                Action: "ShortenURL",
+                URL: info.linkUrl
             });
             break;
     }
